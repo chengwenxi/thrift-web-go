@@ -1,7 +1,7 @@
 package main
 
 import (
-	"../gen-go/hellothrift"
+	"../gen-go-bak/hellothrift"
 	"git.apache.org/thrift.git/lib/go/thrift"
 	"fmt"
 	"context"

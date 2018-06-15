@@ -2,3 +2,5 @@ vendor
 .idea
 *.log
 build
+dist
+node_modules

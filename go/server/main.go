@@ -1,12 +1,12 @@
-package main
+package server
 
 import (
-	"context"
-	"../gen-go/hellothrift"
+	"github.com/chengwenxi/thrift-web-go/go/gen-go/hellothrift"
 	"git.apache.org/thrift.git/lib/go/thrift"
 
 	"net/http"
 	"github.com/rs/cors"
+	"context"
 )
 
 const (
@@ -17,6 +17,11 @@ type HelloServiceTmpl struct {
 }
 
 func (this *HelloServiceTmpl) SayHello(ctx context.Context, str string) (s string, err error) {
+	print("Go-Server:" + str)
+	return str, nil
+}
+
+func (this *HelloServiceTmpl) Say(ctx context.Context, str string) (s string, err error) {
 	print("Go-Server:" + str)
 	return str, nil
 }
@@ -59,9 +64,9 @@ func thriftRequest(input []byte) []byte {
 	inprotocol = thrift.NewTJSONProtocol(inbuffer)
 	outprotocol = thrift.NewTJSONProtocol(outbuffer)
 
-	handler1 := &HelloServiceTmpl{}
+	var handler1 *HelloServiceTmpl
 	processor := hellothrift.NewHelloThriftProcessor(handler1)
-	processor.Process(nil, inprotocol, outprotocol)
+	processor.Process(context.Background(), inprotocol, outprotocol)
 
 	out := make([]byte, outbuffer.RemainingBytes())
 	outbuffer.Read(out)
@@ -69,7 +74,7 @@ func thriftRequest(input []byte) []byte {
 
 }
 
-func main() {
+func Server() {
 
 	handler1 := cors.Default().Handler(MyHandler{})
 	http.ListenAndServe(":9092", handler1)
