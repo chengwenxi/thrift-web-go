@@ -4,18 +4,20 @@
 thrift version = 0.11.0
 
 ### Use thrift
+```bash
 thrift --gen go *.thrift
 thrift --gen js *.thrift
 thrift --gen js:node *.thrift
+```
 
-### RUN go server
+### Run go server
 
 ```bash
 dep ensure
 go run main.go
 ```
 
-## RUN vue client
+## Run vue client
 ```bash
 yarn 
 yarn serve
